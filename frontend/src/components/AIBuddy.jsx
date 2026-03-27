@@ -14,7 +14,7 @@ const AIBuddy = ({ age }) => {
     setResponse("");
     try {
       const { data } = await axios.post(
-        "https://kids-book-logger-l3ecwb05m-him-agnis-projects.vercel.app/api/ai/recommend",
+        "https://kids-book-logger.vercel.app/api/ai/recommend",
         {
           age: childAge,
           history: [],
@@ -36,7 +36,7 @@ const AIBuddy = ({ age }) => {
     setResponse("");
     try {
       const { data } = await axios.post(
-        "https://kids-book-logger-l3ecwb05m-him-agnis-projects.vercel.app/api/ai/story",
+        "https://kids-book-logger.vercel.app/api/ai/story",
         {
           age: childAge,
           topic,

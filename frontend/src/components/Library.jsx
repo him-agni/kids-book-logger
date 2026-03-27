@@ -8,7 +8,7 @@ const Library = ({ userId }) => {
     const fetchLogs = async () => {
       try {
         const { data } = await axios.get(
-          `https://kids-book-logger-l3ecwb05m-him-agnis-projects.vercel.app/api/logs/${userId}`,
+          `https://kids-book-logger.vercel.app/api/logs/${userId}`,
         );
         setLogs(data.logs);
       } catch (error) {
@@ -24,7 +24,7 @@ const Library = ({ userId }) => {
   const toggleFavorite = async (id) => {
     try {
       const { data } = await axios.patch(
-        `https://kids-book-logger-l3ecwb05m-him-agnis-projects.vercel.app/api/logs/${id}/favorite`,
+        `https://kids-book-logger.vercel.app/api/logs/${id}/favorite`,
       );
       setLogs(logs.map((log) => (log._id === id ? data.log : log)));
     } catch (err) {
@@ -40,9 +40,7 @@ const Library = ({ userId }) => {
     )
       return;
     try {
-      await axios.delete(
-        `https://kids-book-logger-l3ecwb05m-him-agnis-projects.vercel.app/api/logs/${id}`,
-      );
+      await axios.delete(`https://kids-book-logger.vercel.app/api/logs/${id}`);
       setLogs(logs.filter((log) => log._id !== id));
     } catch (err) {
       console.error("Failed to delete log", err);
@@ -52,7 +50,7 @@ const Library = ({ userId }) => {
   const shareList = () => {
     // Simulated sharing feature
     navigator.clipboard.writeText(
-      `https://kids-book-logger-l3ecwb05m-him-agnis-projects.vercel.app/share/${userId}`,
+      `https://kids-book-logger.vercel.app/share/${userId}`,
     );
     alert("Public link copied to clipboard! (Feature placeholder) 📤");
   };

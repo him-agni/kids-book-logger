@@ -19,7 +19,7 @@ const BookSearch = ({ userId }) => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `https://kids-book-logger-l3ecwb05m-him-agnis-projects.vercel.app/api/books/search?query=${q}&age=${ageFilter}`,
+        `https://kids-book-logger.vercel.app/api/books/search?query=${q}&age=${ageFilter}`,
       );
       setResults(data.books || []);
     } catch (err) {
@@ -30,18 +30,15 @@ const BookSearch = ({ userId }) => {
 
   const logBook = async (book, status) => {
     try {
-      await axios.post(
-        "https://kids-book-logger-l3ecwb05m-him-agnis-projects.vercel.app/api/logs",
-        {
-          userId,
-          bookDetails: {
-            title: book.title,
-            author: book.author,
-            coverUrl: book.coverUrl,
-          },
-          status,
+      await axios.post("https://kids-book-logger.vercel.app/api/logs", {
+        userId,
+        bookDetails: {
+          title: book.title,
+          author: book.author,
+          coverUrl: book.coverUrl,
         },
-      );
+        status,
+      });
       alert("Book added to library! 🎉");
     } catch (err) {
       alert("Failed to log book. Is the backend running?");
