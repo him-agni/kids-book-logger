@@ -4,9 +4,12 @@ A full-stack, AI-powered web application designed to help children (ages 0-15) d
 
 ## 🌟 Key Features
 
-- **Magical Book Search**: Connects to the massive OpenLibrary API to intelligently suggest popular children's books dynamically.
+- **Magical Book Search**: Connects to the massive Apple iTunes Books API to intelligently suggest popular children's books dynamically.
+<img width="1211" height="880" alt="image" src="https://github.com/user-attachments/assets/ec452acc-3f86-47a3-941d-9b53fefb558e" />
 - **AI Reading Buddy**: Powered by Google Gemini, the AI Buddy understands a child's customized age and preferences to recommend perfectly tailored reading material.
 - **Custom Story Generator**: Kids can provide a single topic (e.g., "A brave dog on the moon") and the AI will dynamically generate a safe, engaging, and age-appropriate story!
+<img width="851" height="878" alt="image" src="https://github.com/user-attachments/assets/d3be44e8-aab4-46af-977d-3fd14991384d" />
+
 - **My Magic Library**: Securely save your favorite books to MongoDB, mark them as 'Reading' or 'Completed', and curate your own digital shelf.
 - **Vibrant UI**: Built with a custom, kid-friendly Vanilla CSS framework utilizing modern design elements like smooth gradients and pop animations.
 
@@ -31,12 +34,12 @@ Follow these steps to run the application locally. The project is split into two
 
 ### 1. Environment Configuration
 
-Inside the `backend/` directory, create a `.env` file and outline your secrets:
+Inside the `backend/` directory, create a `.env` file and outline your secrets
 
 ```env
-PORT=5000
-MONGODB_URI=mongodb+srv://<your_user>:<your_password>@cluster...
-GEMINI_API_KEY=AIzaSyB...
+PORT
+MONGODB_URI
+GEMINI_API_KEY
 ```
 
 *Note: The Firebase configuration is placed directly inside `frontend/src/firebase.js`.*
