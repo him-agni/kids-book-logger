@@ -2,6 +2,8 @@
 
 A full-stack, AI-powered web application designed to help children (ages 0-15) discover new books, log their reading journey, and generate magical custom stories using AI!
 
+Vercel Link - https://kids-book-logger-s5dd-git-main-him-agnis-projects.vercel.app/
+
 ## 🌟 Key Features
 
 - **Magical Book Search**: Connects to the massive Apple iTunes Books API to intelligently suggest popular children's books dynamically.
