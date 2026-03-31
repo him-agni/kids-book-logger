@@ -6,27 +6,36 @@ router.get('/search', async (req, res) => {
   if (!query) return res.json({ books: [] });
 
   try {
-    // Google Books API (Response time: 0.2s) - Bypasses Vercel 10s limits.
-    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=10&printType=books`);
+    // Switched to Apple's lightning-fast iTunes Books API! 
+    // This perfectly bypasses Google's strict IP quota limits without needing a complex API Key.
+    const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=ebook&limit=10`);
+    
+    if (!response.ok) {
+        console.error("iTunes API error", response.status);
+        return res.json({ books: [] }); // Fail gracefully
+    }
+
     const data = await response.json();
     
-    if (!data.items) {
+    if (!data.results) {
       return res.json({ books: [] });
     }
 
-    const books = data.items.map(item => ({
-      googleBooksId: item.id,
-      title: item.volumeInfo.title || 'Unknown Title',
-      author: item.volumeInfo.authors?.join(', ') || 'Unknown Author',
-      coverUrl: item.volumeInfo.imageLinks?.thumbnail?.replace('http:', 'https:') || 'https://placehold.co/200x300/png?text=No+Magic+Cover',
-      description: item.volumeInfo.description,
-      categories: item.volumeInfo.categories || []
+    const books = data.results.map(item => ({
+      googleBooksId: item.trackId ? item.trackId.toString() : Math.random().toString(),
+      title: item.trackName || 'Unknown Title',
+      author: item.artistName || 'Unknown Author',
+      // Grab a high quality cover by replacing the 100x100 string:
+      coverUrl: item.artworkUrl100 ? item.artworkUrl100.replace('100x100bb', '600x600bb') : 'https://placehold.co/200x300/png?text=No+Magic+Cover',
+      // Apple's descriptions sometimes contain raw HTML tags, so we instantly strip them:
+      description: item.description ? item.description.replace(/<[^>]*>?/gm, '') : 'A magical book waiting to be explored!',
+      categories: item.genres || []
     }));
     
     res.json({ books });
   } catch (error) {
     console.error('Book search error:', error);
-    res.status(500).json({ error: 'Failed to search books' });
+    res.status(500).json({ error: 'Failed to search books utilizing fallback APIs' });
   }
 });
 
