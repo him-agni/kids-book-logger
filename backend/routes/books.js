@@ -6,23 +6,21 @@ router.get('/search', async (req, res) => {
   if (!query) return res.json({ books: [] });
 
   try {
-    // Switched to OpenLibrary API for much better matching on popular books
-    const response = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=10`);
+    // Google Books API (Response time: 0.2s) - Bypasses Vercel 10s limits.
+    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=10&printType=books`);
     const data = await response.json();
     
-    if (!data.docs) {
+    if (!data.items) {
       return res.json({ books: [] });
     }
 
-    const books = data.docs.map(item => ({
-      googleBooksId: item.key, // Keeping the same variable name so the frontend doesn't break
-      title: item.title || 'Unknown Title',
-      author: item.author_name ? item.author_name.join(', ') : 'Unknown Author',
-      coverUrl: item.cover_i 
-        ? `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg` 
-        : 'https://via.placeholder.com/200x300?text=No+Magic+Cover', // Fallback cover
-      description: 'Book found in the magical OpenLibrary catalog.',
-      categories: item.subject ? item.subject.slice(0, 3) : []
+    const books = data.items.map(item => ({
+      googleBooksId: item.id,
+      title: item.volumeInfo.title || 'Unknown Title',
+      author: item.volumeInfo.authors?.join(', ') || 'Unknown Author',
+      coverUrl: item.volumeInfo.imageLinks?.thumbnail?.replace('http:', 'https:') || 'https://placehold.co/200x300/png?text=No+Magic+Cover',
+      description: item.volumeInfo.description,
+      categories: item.volumeInfo.categories || []
     }));
     
     res.json({ books });
